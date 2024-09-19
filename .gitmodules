@@ -1,0 +1,3 @@
+[submodule "custom_widget"]
+	path = custom_widget
+	url = https://github.com/GuangzeYang/PyQt_Custom_Widget.git
