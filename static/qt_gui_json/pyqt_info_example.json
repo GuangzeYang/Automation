@@ -1,0 +1,12 @@
+[
+  {
+    "window_title": "qt_nature",
+    "border_width": 0,
+    "child":[
+      {"name":"按钮_1", "x_pos": 0, "y_pos": 0, "width": 100, "height": 100, "child": []},
+      {"name":"按钮_2", "x_pos": 0, "y_pos": 0, "width": 100, "height": 100, "child": []},
+      {"name":"输入框_1", "x_pos": 0, "y_pos": 0, "width": 100, "height": 100, "child": []},
+      {"name":"wd_1", "x_pos": 0, "y_pos": 0, "width": 100, "height": 100, "child": [{"name":"wd_1_2", "x_pos": 0, "y_pos": 0, "width": 100, "height": 100, "child": []}]}
+    ]
+  }
+]

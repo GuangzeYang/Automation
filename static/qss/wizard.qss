@@ -1,0 +1,10 @@
+
+*{
+    background-color: black;
+}
+
+
+QLabel {
+    color: white;
+    font-size: 30px
+}
