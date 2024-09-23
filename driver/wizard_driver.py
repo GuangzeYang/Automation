@@ -3,6 +3,8 @@ from PyQt5.QtCore import pyqtSignal
 from gui.wizard_gui import WizardGui
 from pynput.mouse import Listener as MListener
 from pynput.keyboard import Listener as KListener, Key
+import keyboard
+import mouse
 
 import ctypes
 PROCESS_PER_MONITOR_DPI_AWARE = 2
