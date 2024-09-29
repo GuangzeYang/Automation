@@ -43,20 +43,20 @@ class OperateGui(QMainWindow):
         self.hl_operate_buttons = QHBoxLayout(self.wd_operate_buttons)
         # 设置上边距
         self.hl_operate_buttons.setContentsMargins(0, 10, 0, 0)
+        self.pb_define_step = HoverLargeButton("定义操作")
         self.pb_start_execution = HoverLargeButton("开始执行")
-        self.pb_pause_execution = HoverLargeButton("暂停执行")
         self.pb_continue_execution = HoverLargeButton("继续执行")
-        self.pb_stop_execution = HoverLargeButton("停止执行")
+        self.pb_stop_execution = HoverLargeButton("终止执行")
 
+        self.pb_define_step.setObjectName("define_step")
         self.pb_start_execution.setObjectName("start_execution")
-        self.pb_pause_execution.setObjectName("pause_execution")
         self.pb_continue_execution.setObjectName("continue_execution")
         self.pb_stop_execution.setObjectName("stop_execution")
 
         self.hl_operate_buttons.addStretch(1)
-        self.hl_operate_buttons.addWidget(self.pb_start_execution,2)
+        self.hl_operate_buttons.addWidget(self.pb_define_step,2)
         self.hl_operate_buttons.addStretch(1)
-        self.hl_operate_buttons.addWidget(self.pb_pause_execution,2)
+        self.hl_operate_buttons.addWidget(self.pb_start_execution,2)
         self.hl_operate_buttons.addStretch(1)
         self.hl_operate_buttons.addWidget(self.pb_continue_execution,2)
         self.hl_operate_buttons.addStretch(1)
@@ -69,7 +69,6 @@ class OperateGui(QMainWindow):
         self.h_line.setFrameShadow(QFrame.Sunken)  # 设置阴影样式
 
         # 用户设置部分
-
         self.vl_central.addWidget(self.wd_operate_buttons, 1)
         self.vl_central.addWidget(self.h_line)
         self.vl_central.addStretch(7)

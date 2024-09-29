@@ -8,3 +8,7 @@ QLabel {
     color: white;
     font-size: 30px
 }
+
+#sub_hint{
+    font-size:20px;
+}
