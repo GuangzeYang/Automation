@@ -1,6 +1,13 @@
-from PyQt5.QtWidgets import QMainWindow, QMenuBar, QMenu, QAction, QWidget, QVBoxLayout, QHBoxLayout, QFrame
+from time import sleep
+
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIntValidator
+from PyQt5.QtWidgets import QMainWindow, QMenuBar, QMenu, QAction, QWidget, QVBoxLayout, QHBoxLayout, QFrame, \
+    QFormLayout, QLabel, QListWidget, QPushButton
 
 from custom_widget.ui.button import HoverLargeButton
+from custom_widget.ui.independent_widget import VSeparateLine
+from custom_widget.ui.text_widget import LineEditVerify
 
 
 class OperateGui(QMainWindow):
@@ -14,7 +21,7 @@ class OperateGui(QMainWindow):
         pass
 
     def setup_ui(self):
-        self.resize(1200, 1000)
+        self.resize(1000, 800)
         self.setWindowTitle("Operate")
 
         self.menu_bar = QMenuBar()
@@ -63,13 +70,63 @@ class OperateGui(QMainWindow):
         self.hl_operate_buttons.addWidget(self.pb_stop_execution,2)
         self.hl_operate_buttons.addStretch(1)
 
-        # 添加水平分割线
+        # 添加按钮区与操作区的水平分割线
         self.h_line = QFrame()
         self.h_line.setFrameShape(QFrame.HLine)  # 设置为水平线
         self.h_line.setFrameShadow(QFrame.Sunken)  # 设置阴影样式
 
+        self.hl_operate_info = QHBoxLayout()
+
+        # 收集用户输入信息区域
+        self.wd_gather_info = QWidget()
+        self.fl_gather_info = QFormLayout(self.wd_gather_info)
+        self.fl_gather_info.setVerticalSpacing(10)
+        self.fl_gather_info.setHorizontalSpacing(20)
+
+        # 获取循环次数
+        self.lb_loop_count = QLabel("循环次数:")
+        self.le_loop_count = LineEditVerify('1')
+        self.le_loop_count.setValidator(QIntValidator(1, 100))
+
+        # 获取打开项目文件的路径
+        self.hl_open_project = QHBoxLayout()
+        self.le_open_project_path = LineEditVerify()
+        self.le_open_project_path.setPlaceholderText("例如：C:/hisun/test/666.yaml")
+        self.pb_open_project = QPushButton("选择")
+        self.pb_open_project.setObjectName("pb_open_project")
+        self.hl_open_project.addWidget(self.le_open_project_path,7)
+        self.hl_open_project.addStretch(1)
+        self.hl_open_project.addWidget(self.pb_open_project,2)
+
+        self.fl_gather_info.addRow(self.lb_loop_count, self.le_loop_count)
+        self.fl_gather_info.addRow("打开项目文件：", self.hl_open_project)
+
+        # 划分左右两部分的垂直分割线
+        self.vertical_separator = VSeparateLine()
+
+        # 显示当前定义的步骤
+        self.wd_operate_steps = QWidget()
+        self.vl_operate_steps = QVBoxLayout(self.wd_operate_steps)
+
+        self.lw_display_steps = QListWidget()
+
+        self.hl_steps_btns = QHBoxLayout()  # TODO 添加有关对步骤操作的按钮
+        self.vl_operate_steps.addWidget(self.lw_display_steps, 3)
+        self.vl_operate_steps.addStretch(1)
+
+        self.hl_operate_info.addWidget(self.wd_gather_info,1)
+        self.hl_operate_info.addWidget(self.vertical_separator)
+        self.hl_operate_info.addWidget(self.wd_operate_steps,1)
+
+        # 添加底部水平分割线，要不太丑了
+        self.h_bottom_line = QFrame()
+        self.h_bottom_line.setFrameShape(QFrame.HLine)  # 设置为水平线
+        self.h_bottom_line.setFrameShadow(QFrame.Sunken)  # 设置阴影样式
+
         # 用户设置部分
         self.vl_central.addWidget(self.wd_operate_buttons, 1)
         self.vl_central.addWidget(self.h_line)
-        self.vl_central.addStretch(7)
+        self.vl_central.addLayout(self.hl_operate_info,6)
+        self.vl_central.addWidget(self.h_bottom_line)
+        self.vl_central.addStretch(1)
         pass

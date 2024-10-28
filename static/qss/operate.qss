@@ -20,3 +20,25 @@ QMainWindow{
     color: white;
 }
 
+LineEditVerify{
+    min-height: 25px;
+}
+
+#pb_open_project{
+    min-height: 25px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5%;
+}
+
+#pb_open_project:hover{
+    background-color: #228B22;
+    color: white;
+}
+
+#pb_open_project:pressed{
+    background-color: #006400;
+    color: white;
+}
+
+
