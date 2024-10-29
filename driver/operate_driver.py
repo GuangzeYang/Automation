@@ -28,7 +28,6 @@ class OperateDriver(OperateGui):
             event.ignore()
         pass
 
-
     def about_hisun(self):
         url = QUrl("http://www.hisuntest.com/")
         QDesktopServices.openUrl(url)
@@ -42,7 +41,7 @@ class OperateDriver(OperateGui):
         return ui_info
 
     def set_ui_data(self, ui_info, step_info):
-        self.le_loop_count.setText(ui_info.get("loop_count", None))
+        self.le_loop_count.setText(ui_info.get("loop_count", None).__str__())
         self.set_step_view_data(step_info)
         pass
 
@@ -57,11 +56,10 @@ class OperateDriver(OperateGui):
         向步骤列表中添加单个定义的步骤信息
         :param step_info:
         #   时间数据格式为{"type":TIME, "time_interval":value}
-        #   键盘操作数据格式{"type": OperateType.KEYBOARD, "object": key, "action": OperateAction.TAP}
-        #   鼠标操作数据格式{"type": OperateType.MOUSE, "object": button, "action": "OperateAction.CLICK", "x_pos": abs_x, "y_pos": abs_y}
+        #   键盘操作数据格式{"type": OperateType.KEYBOARD, "object": key, "action": OperateAction.TAP, "is_checked":bool }
+        #   鼠标操作数据格式{"type": OperateType.MOUSE, "object": button, "action": "OperateAction.CLICK", "x_pos": abs_x, "y_pos": abs_y, "is_checked":bool }
         :return:
         """
-
         if step_info["type"] == OperateType.TIME:
             return
         elif step_info["type"] == OperateType.KEYBOARD:
@@ -80,7 +78,7 @@ class OperateDriver(OperateGui):
         else:
             return
         item = QListWidgetItem(text)
-        item.setCheckState(Qt.Checked)
+        item.setCheckState(Qt.Checked) if step_info["is_checked"] else item.setCheckState(Qt.Unchecked)
         self.lw_display_steps.addItem(item)
         pass
 

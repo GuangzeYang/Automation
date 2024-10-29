@@ -79,6 +79,7 @@ class WizardDriver(WizardGui):
                 except Exception as e:
                     logger.error(e)
         self.central_hint.setText("操作步骤全部执行完毕")
+        self.sub_hint.setText("（可以按Esc键返回用户操作界面）")
         logger.success("操作步骤全部执行完成")
         pass
 

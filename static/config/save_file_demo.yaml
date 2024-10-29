@@ -1,0 +1,73 @@
+measure_step:
+- interval_time: 3
+  type: &id001 !OperateType 'TIME'
+- action: &id002 !OperateAction 'CLICK'
+  is_checked: true
+  object: &id003 !!python/object/apply:pynput.mouse._win32.Button
+  - !!python/tuple
+    - 4
+    - 2
+    - 0
+  type: &id004 !OperateType 'MOUSE'
+  x_pos: 1030
+  y_pos: 302
+- interval_time: 0.35925722122192383
+  type: *id001
+- action: *id002
+  is_checked: true
+  object: *id003
+  type: *id004
+  x_pos: 1026
+  y_pos: 218
+- interval_time: 0.32926249504089355
+  type: *id001
+- action: *id002
+  is_checked: true
+  object: *id003
+  type: *id004
+  x_pos: 1161
+  y_pos: 203
+- interval_time: 0.382962703704834
+  type: *id001
+- action: *id002
+  is_checked: true
+  object: *id003
+  type: *id004
+  x_pos: 1228
+  y_pos: 253
+- interval_time: 0.3601078987121582
+  type: *id001
+- action: *id002
+  is_checked: true
+  object: *id003
+  type: *id004
+  x_pos: 1002
+  y_pos: 276
+- interval_time: 0.33588695526123047
+  type: *id001
+- action: *id002
+  is_checked: true
+  object: *id003
+  type: *id004
+  x_pos: 864
+  y_pos: 279
+- interval_time: 0.2886779308319092
+  is_checked: false
+  type: *id001
+- action: *id002
+  is_checked: false
+  object: *id003
+  type: *id004
+  x_pos: 794
+  y_pos: 274
+- interval_time: 0.31978464126586914
+  is_checked: false
+  type: *id001
+- action: *id002
+  is_checked: false
+  object: *id003
+  type: *id004
+  x_pos: 806
+  y_pos: 220
+ui_info:
+  loop_count: 1

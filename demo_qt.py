@@ -1,10 +1,7 @@
 import sys
 
-from PyQt5.QtCore import QTimer, Qt, QEasingCurve, QVariantAnimation
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QDialog, \
-    QGraphicsOpacityEffect, QLabel
-
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QListWidget, QListWidgetItem
 
 
 class WindowTest(QWidget):
@@ -20,19 +17,19 @@ class WindowTest(QWidget):
         self.pb_test = QPushButton("Test")
         self.pb_test.clicked.connect(self.test_click)
         # DEMO-Start
-        self.da_test = QDialog()
-        self.da_test.setParent(self)
+        self.lw_display_steps = QListWidget()
+        item = QListWidgetItem("text")
+        item.setCheckState(Qt.Unchecked)
+        self.lw_display_steps.addItem(item)
         # DEMO-Stop
         self.vl_main.addWidget(self.pb_test)
+        self.vl_main.addWidget(self.lw_display_steps)
         self.vl_main.addStretch(1)
         pass
 
     def test_click(self):
         print("Test Click")
-        self.da_test.show()
         pass
-
-
 
 
 if __name__ == '__main__':
