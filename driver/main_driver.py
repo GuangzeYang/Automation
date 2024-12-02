@@ -1,9 +1,6 @@
 import collections
 import os
 import time
-from distutils.command.config import config
-from importlib.resources import is_resource
-from time import sleep
 
 import yaml
 from PyQt5.QtCore import QTime, QTimer, Qt
@@ -11,11 +8,9 @@ from PyQt5.QtWidgets import QDialog, QFileDialog
 from loguru import logger
 import json
 
-from custom_widget.ui.independent_widget import FadeOutPrompt
 from driver.wizard_driver import WizardDriver
 from driver.operate_driver import OperateDriver
 from driver.wizard_driver import OperateType, OperateAction
-import threading
 from driver.custom_tools import exception_is_executed_log
 
 import configparser
@@ -43,11 +38,11 @@ class AutoDrive:
         self.operate_driver.open_file_action.triggered.connect(self.open_file)
         self.operate_driver.save_file_action.triggered.connect(self.save_file)
         self.operate_driver.lw_display_steps.itemChanged.connect(self.update_step_status)
-
         self.operate_driver.pb_define_step.clicked.connect(self.define_step)
         self.operate_driver.pb_start_execution.clicked.connect(self.start_execution)
-        self.operate_driver.pb_stop_execution.clicked.connect(self.stop_execution)
+        self.operate_driver.pb_debug_execution.clicked.connect(self.debug_execution)
         self.operate_driver.pb_continue_execution.clicked.connect(self.continue_execution)
+        self.operate_driver.close_app_signal.connect(self.close_app)
 
         self.wizard_driver.record_step_finished.connect(self.open_operate)
         self.wizard_driver.pause_executed.connect(self.open_operate)
@@ -56,12 +51,17 @@ class AutoDrive:
         self.operate_driver.show()
         pass
 
+    def close_app(self):
+        self.wizard_driver.close()
+        pass
+
     def open_operate(self, raw_step: collections.deque = None):
         logger.info("切换至用户操作界面")
         self.operate_driver.show()
         self.wizard_driver.hide()
         self.operate_driver.activateWindow()
         self.operate_driver.setFocus()
+        # 原始组建的步骤如果为空，那就是暂停执行的操作
         if raw_step:
             self.build_overall_step_queue(raw_step)
         self.wizard_driver.execute_paused_event.clear()
@@ -79,13 +79,21 @@ class AutoDrive:
         self.wizard_driver.execute_step_show(self.actual_step)
         pass
 
-    def stop_execution(self):
+    def debug_execution(self):
+        self.operate_driver.hide()
+        self.build_actual_step_queue()
+        self.wizard_driver.loop_count = 1
+        self.wizard_driver.execute_step_show(self.actual_step)
         pass
 
     def continue_execution(self):
+        self.wizard_driver.execute_paused_event.set() if not self.wizard_driver.execute_paused_event.is_set() else None
+        self.wizard_driver.show()
+        self.operate_driver.hide()
         pass
 
     def update_step_status(self, item):
+        """更新在列表中展示的step是否被选中的状态"""
         index = self.operate_driver.lw_display_steps.indexFromItem(item).row()*2+1
         if item.checkState() == Qt.Checked:
             self.measure_step[index]["is_checked"] = True
@@ -104,11 +112,16 @@ class AutoDrive:
                 row = i / 2
                 item = self.operate_driver.lw_display_steps.item(row)
                 is_reserved = True if item.checkState() else False
-            self.actual_step.append(step) if is_reserved else ...
+            self.actual_step.append(step) if is_reserved else None
         pass
 
     @exception_is_executed_log("构建整体的步骤序列")
     def build_overall_step_queue(self, raw_queue):
+        """
+        根据监听到的信息构建出全部操作
+        :param raw_queue:
+        :return:
+        """
         if not raw_queue:
             return
         self.measure_step.clear()  # 清空历史步骤
@@ -146,7 +159,9 @@ class AutoDrive:
         if not file_path:
             logger.error("保存文件失败，未选择文件路径")
             return
+
         with open(self.user_config_path, 'w', encoding="utf-8") as fp:
+            user_config.set("file_path", "recent_save_path", os.path.dirname(file_path))
             user_config.write(fp)
         with open(file_path, "w", encoding="utf-8") as fp:
             temp_save_obj = dict()
@@ -154,7 +169,6 @@ class AutoDrive:
             temp_save_obj["measure_step"] = self.measure_step
             yaml.dump(temp_save_obj, fp)
         user_config.set("file_path", "recent_save_path", file_path)
-
         pass
 
     @exception_is_executed_log('打开工程文件')
@@ -169,7 +183,7 @@ class AutoDrive:
             logger.error("打开文件失败，未选择文件路径")
             return
         with open(self.user_config_path, 'w', encoding="utf-8") as fp:
-            user_config.set("file_path", "recent_open_path", file_path)
+            user_config.set("file_path", "recent_open_path", os.path.dirname(file_path))
             user_config.write(fp)
         with open(file_path, "r", encoding="utf-8") as fp:
             all_data = yaml.load(fp, yaml.Loader)

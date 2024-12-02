@@ -9,8 +9,6 @@ from pynput.keyboard import Listener as KListener, Key
 from pynput.keyboard import Controller as KController
 import collections
 from driver.custom_enum import OperateType, OperateAction
-import pyautogui
-from enum import Enum
 import threading
 
 # 同步时间
@@ -21,6 +19,7 @@ ctypes.windll.shcore.SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE)
 class WizardDriver(WizardGui):
     record_step_finished = pyqtSignal(object)
     pause_executed = pyqtSignal()
+    single_step_finished = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -58,6 +57,19 @@ class WizardDriver(WizardGui):
         self.keyboard_listener = KListener(on_release=self.keyboard_on_release)
         self.keyboard_listener.start()
         self.execute_step_thread = threading.Thread(target=self.execute_step, args=(measure_step,))
+        self.execute_step_thread.daemon = True
+        self.execute_step_thread.start()
+        pass
+
+    def debug_step_show(self, measure_step: list):
+        self.central_hint.setText("Debug模式")
+        self.sub_hint.setText("（按Esc键返回，按Alt键执行下一步）")
+        self.is_recording = False
+        self.show()
+        self.keyboard_listener = KListener(on_release=self.keyboard_on_release)
+        self.keyboard_listener.start()
+        self.execute_step_thread = threading.Thread(target=self.execute_step, args=(measure_step,))
+        self.execute_step_thread.daemon = True
         self.execute_step_thread.start()
         pass
 
@@ -70,8 +82,10 @@ class WizardDriver(WizardGui):
                 try:
                     if step["type"] == OperateType.MOUSE:
                         self.execute_mouse(step)
+                        self.single_step_finished.emit()
                     elif step["type"] == OperateType.KEYBOARD:
                         self.execute_keyboard(step)
+                        self.single_step_finished.emit()
                     elif step["type"] == OperateType.TIME:
                         time.sleep(step["interval_time"])
                     else:
@@ -132,14 +146,14 @@ class WizardDriver(WizardGui):
         :param key: 按下的键
         :return:
         """
-        if key == Key.esc:
-            self.mouse_listener.stop()
+        if key == Key.esc and self.is_recording:
             self.keyboard_listener.stop()
-            if self.is_recording:
-                self.record_step_finished.emit(self.raw_step)
-                self.is_recording = False
-            else:
-                self.pause_executed.emit()
+            self.mouse_listener.stop()
+            self.record_step_finished.emit(self.raw_step)
+            self.is_recording = False
+        elif key == Key.esc:
+            self.pause_executed.emit()
+
         elif self.is_recording:
             step = {"time_stamp": time.time(), "type": OperateType.KEYBOARD, "object": key, "action": OperateAction.TAP}
             self.raw_step.append(step)

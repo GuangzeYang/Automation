@@ -53,12 +53,12 @@ class OperateGui(QMainWindow):
         self.pb_define_step = HoverLargeButton("定义操作")
         self.pb_start_execution = HoverLargeButton("开始执行")
         self.pb_continue_execution = HoverLargeButton("继续执行")
-        self.pb_stop_execution = HoverLargeButton("终止执行")
+        self.pb_debug_execution = HoverLargeButton("调试执行")
 
         self.pb_define_step.setObjectName("define_step")
         self.pb_start_execution.setObjectName("start_execution")
         self.pb_continue_execution.setObjectName("continue_execution")
-        self.pb_stop_execution.setObjectName("stop_execution")
+        self.pb_debug_execution.setObjectName("stop_execution")
 
         self.hl_operate_buttons.addStretch(1)
         self.hl_operate_buttons.addWidget(self.pb_define_step,2)
@@ -67,7 +67,7 @@ class OperateGui(QMainWindow):
         self.hl_operate_buttons.addStretch(1)
         self.hl_operate_buttons.addWidget(self.pb_continue_execution,2)
         self.hl_operate_buttons.addStretch(1)
-        self.hl_operate_buttons.addWidget(self.pb_stop_execution,2)
+        self.hl_operate_buttons.addWidget(self.pb_debug_execution,2)
         self.hl_operate_buttons.addStretch(1)
 
         # 添加按钮区与操作区的水平分割线
@@ -99,7 +99,7 @@ class OperateGui(QMainWindow):
         self.hl_open_project.addWidget(self.pb_open_project,2)
 
         self.fl_gather_info.addRow(self.lb_loop_count, self.le_loop_count)
-        self.fl_gather_info.addRow("打开项目文件：", self.hl_open_project)
+        # self.fl_gather_info.addRow("打开项目文件：", self.hl_open_project)
 
         # 划分左右两部分的垂直分割线
         self.vertical_separator = VSeparateLine()

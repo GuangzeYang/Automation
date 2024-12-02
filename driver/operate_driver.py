@@ -11,7 +11,7 @@ from driver.custom_enum import OperateType, OperateAction
 
 
 class OperateDriver(OperateGui):
-
+    close_app_signal = pyqtSignal()
     def __init__(self):
         super().__init__()
         self.bind_signal_slot()
@@ -23,6 +23,7 @@ class OperateDriver(OperateGui):
     def closeEvent(self, event):
         res = PromptCenterTop(QMessageBox.Information, "提示", "确定要退出吗？", [QMessageBox.Yes, QMessageBox.No]).exec()
         if res == QMessageBox.Yes:
+            self.close_app_signal.emit()
             super().closeEvent(event)
         else:
             event.ignore()

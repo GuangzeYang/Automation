@@ -9,65 +9,159 @@ measure_step:
     - 2
     - 0
   type: &id004 !OperateType 'MOUSE'
-  x_pos: 1030
-  y_pos: 302
-- interval_time: 0.35925722122192383
+  x_pos: 414
+  y_pos: 668
+- interval_time: 0.1276087760925293
   type: *id001
 - action: *id002
   is_checked: true
   object: *id003
   type: *id004
-  x_pos: 1026
-  y_pos: 218
-- interval_time: 0.32926249504089355
+  x_pos: 414
+  y_pos: 668
+- interval_time: 5.154367208480835
   type: *id001
 - action: *id002
   is_checked: true
   object: *id003
   type: *id004
-  x_pos: 1161
-  y_pos: 203
-- interval_time: 0.382962703704834
+  x_pos: 979
+  y_pos: 173
+- interval_time: 0.27027034759521484
   type: *id001
 - action: *id002
   is_checked: true
   object: *id003
   type: *id004
-  x_pos: 1228
-  y_pos: 253
-- interval_time: 0.3601078987121582
+  x_pos: 979
+  y_pos: 173
+- interval_time: 0.2892327308654785
   type: *id001
 - action: *id002
   is_checked: true
   object: *id003
   type: *id004
-  x_pos: 1002
-  y_pos: 276
-- interval_time: 0.33588695526123047
+  x_pos: 979
+  y_pos: 173
+- interval_time: 0.9678354263305664
   type: *id001
 - action: *id002
   is_checked: true
   object: *id003
   type: *id004
-  x_pos: 864
-  y_pos: 279
-- interval_time: 0.2886779308319092
-  is_checked: false
+  x_pos: 1020
+  y_pos: 622
+- interval_time: 0.9844193458557129
+  type: *id001
+- action: &id005 !OperateAction 'TAP'
+  is_checked: true
+  object: !!python/object:pynput.keyboard._win32.KeyCode
+    _flags: null
+    _scan: 49
+    char: n
+    combining: null
+    is_dead: false
+    vk: 78
+  type: &id006 !OperateType 'KEYBOARD'
+- interval_time: 0.18340086936950684
+  type: *id001
+- action: *id005
+  is_checked: true
+  object: !!python/object:pynput.keyboard._win32.KeyCode
+    _flags: null
+    _scan: 23
+    char: i
+    combining: null
+    is_dead: false
+    vk: 73
+  type: *id006
+- interval_time: 0.1951456069946289
+  type: *id001
+- action: *id005
+  is_checked: true
+  object: !!python/object:pynput.keyboard._win32.KeyCode
+    _flags: null
+    _scan: 35
+    char: h
+    combining: null
+    is_dead: false
+    vk: 72
+  type: *id006
+- interval_time: 0.06589508056640625
+  type: *id001
+- action: *id005
+  is_checked: true
+  object: !!python/object:pynput.keyboard._win32.KeyCode
+    _flags: null
+    _scan: 30
+    char: a
+    combining: null
+    is_dead: false
+    vk: 65
+  type: *id006
+- interval_time: 0.12855935096740723
+  type: *id001
+- action: *id005
+  is_checked: true
+  object: !!python/object:pynput.keyboard._win32.KeyCode
+    _flags: null
+    _scan: 24
+    char: o
+    combining: null
+    is_dead: false
+    vk: 79
+  type: *id006
+- interval_time: 0.27321958541870117
+  type: *id001
+- action: *id005
+  is_checked: true
+  object: !!python/object:pynput.keyboard._win32.KeyCode
+    _flags: null
+    _scan: 2
+    char: '1'
+    combining: null
+    is_dead: false
+    vk: 49
+  type: *id006
+- interval_time: 2.3438780307769775
   type: *id001
 - action: *id002
-  is_checked: false
+  is_checked: true
   object: *id003
   type: *id004
-  x_pos: 794
-  y_pos: 274
-- interval_time: 0.31978464126586914
-  is_checked: false
+  x_pos: 1007
+  y_pos: 196
+- interval_time: 0.296400785446167
   type: *id001
 - action: *id002
-  is_checked: false
+  is_checked: true
   object: *id003
   type: *id004
-  x_pos: 806
-  y_pos: 220
+  x_pos: 1007
+  y_pos: 196
+- interval_time: 0.2724609375
+  type: *id001
+- action: *id002
+  is_checked: true
+  object: *id003
+  type: *id004
+  x_pos: 1007
+  y_pos: 196
+- interval_time: 0.863372802734375
+  type: *id001
+- action: *id002
+  is_checked: true
+  object: *id003
+  type: *id004
+  x_pos: 845
+  y_pos: 191
+- interval_time: 1.2798795700073242
+  type: *id001
+- action: *id002
+  is_checked: true
+  object: *id003
+  type: *id004
+  x_pos: 1344
+  y_pos: 89
 ui_info:
   loop_count: 1
