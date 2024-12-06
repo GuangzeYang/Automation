@@ -20,7 +20,7 @@ class WizardGui(QWidget):
         self.move(0, 0)
         self.resize(self.screen_geometry.width(), 100)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowTransparentForInput | Qt.WindowStaysOnTopHint)
-        self.setWindowOpacity(0.5)
+        self.setWindowOpacity(0.3)
 
         self.vl_central = QVBoxLayout(self)
 

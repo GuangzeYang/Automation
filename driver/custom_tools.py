@@ -14,11 +14,11 @@ def exception_is_executed_log(message:str='', is_ignore_exception=False):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             try:
-                logger.debug(f'{func.__module__}-{message}({func.__name__}) is starting execution...')
+                logger.info(f'{func.__module__}-{message}({func.__name__}) is starting execution...')
                 res = func(*args, **kwargs)
-                logger.debug(f'{func.__module__}-{message}({func.__name__}) is finished execution.')
+                logger.info(f'{func.__module__}-{message}({func.__name__}) is finished execution.')
             except Exception as e:
-                logger.debug(f'{func.__module__}-{message}({func.__name__}) raise an exception: {e}.')
+                logger.error(f'{func.__module__}-{message}({func.__name__}) raise an exception: {e}.')
                 if not is_ignore_exception: raise e
                 res = None
             return res

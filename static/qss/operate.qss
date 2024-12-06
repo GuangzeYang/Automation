@@ -24,6 +24,11 @@ LineEditVerify{
     min-height: 25px;
 }
 
+#fm_display_frame{
+    border: 1px solid black;
+    border-radius: 5%;
+}
+
 #pb_open_project{
     min-height: 25px;
     background-color: white;

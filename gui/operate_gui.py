@@ -1,4 +1,3 @@
-from time import sleep
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIntValidator
@@ -8,6 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QMenuBar, QMenu, QAction, QWidget, QVBo
 from custom_widget.ui.button import HoverLargeButton
 from custom_widget.ui.independent_widget import VSeparateLine
 from custom_widget.ui.text_widget import LineEditVerify
+from qfluentwidgets import ListWidget, LineEdit, RoundMenu, FluentIcon, Action
 
 
 class OperateGui(QMainWindow):
@@ -27,13 +27,13 @@ class OperateGui(QMainWindow):
         self.menu_bar = QMenuBar()
 
         self.file_menu = QMenu("文件")
-        self.open_file_action = QAction("Open Project")
-        self.save_file_action = QAction("Save Project")
+        self.open_file_action = Action(FluentIcon.FOLDER, "Open Project")
+        self.save_file_action = Action(FluentIcon.SAVE, "Save Project")
         self.file_menu.addAction(self.open_file_action)
         self.file_menu.addAction(self.save_file_action)
 
         self.about_menu = QMenu("关于")
-        self.about_hisun_action = QAction("Hisun Test")
+        self.about_hisun_action = Action(FluentIcon.LINK, "Hisun Test")
         self.about_menu.addAction(self.about_hisun_action)
 
         self.menu_bar.addMenu(self.file_menu)
@@ -85,7 +85,8 @@ class OperateGui(QMainWindow):
 
         # 获取循环次数
         self.lb_loop_count = QLabel("循环次数:")
-        self.le_loop_count = LineEditVerify('1')
+        self.le_loop_count = LineEdit()
+        self.le_loop_count.setText("1")
         self.le_loop_count.setValidator(QIntValidator(1, 100))
 
         # 获取打开项目文件的路径
@@ -108,10 +109,15 @@ class OperateGui(QMainWindow):
         self.wd_operate_steps = QWidget()
         self.vl_operate_steps = QVBoxLayout(self.wd_operate_steps)
 
-        self.lw_display_steps = QListWidget()
+        self.fm_display_frame = QFrame()
+        self.fm_display_frame.setObjectName("fm_display_frame")
+        self.fm_display_frame.setFrameShape(QFrame.Box)
+        self.hl_frame = QHBoxLayout(self.fm_display_frame)
+        self.lw_display_steps = ListWidget()
+        self.hl_frame.addWidget(self.lw_display_steps)
 
         self.hl_steps_btns = QHBoxLayout()  # TODO 添加有关对步骤操作的按钮
-        self.vl_operate_steps.addWidget(self.lw_display_steps, 3)
+        self.vl_operate_steps.addWidget(self.fm_display_frame, 3)
         self.vl_operate_steps.addStretch(1)
 
         self.hl_operate_info.addWidget(self.wd_gather_info,1)

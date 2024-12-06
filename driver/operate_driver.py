@@ -6,8 +6,10 @@ from loguru import logger
 from pynput.mouse import Button
 
 from custom_widget.ui.independent_widget import PromptCenterTop
+from driver.auto_dataclass import KeyboardAction, MouseAction
 from gui.operate_gui import OperateGui
-from driver.custom_enum import OperateType, OperateAction
+from driver.auto_dataclass import OperateType, OperateAction
+from typing import Union
 
 
 class OperateDriver(OperateGui):
@@ -46,40 +48,39 @@ class OperateDriver(OperateGui):
         self.set_step_view_data(step_info)
         pass
 
-    def set_step_view_data(self, step_info):
+    def set_step_view_data(self, measure_steps):
         """批量插入数据"""
-        for step in step_info:
+        for step in measure_steps:
             self.add_step_item(step)
         pass
 
-    def add_step_item(self, step_info:dict):
+    def add_step_item(self, step_info:Union[KeyboardAction, MouseAction]):
         """
         向步骤列表中添加单个定义的步骤信息
         :param step_info:
-        #   时间数据格式为{"type":TIME, "time_interval":value}
-        #   键盘操作数据格式{"type": OperateType.KEYBOARD, "object": key, "action": OperateAction.TAP, "is_checked":bool }
-        #   鼠标操作数据格式{"type": OperateType.MOUSE, "object": button, "action": "OperateAction.CLICK", "x_pos": abs_x, "y_pos": abs_y, "is_checked":bool }
         :return:
         """
-        if step_info["type"] == OperateType.TIME:
-            return
-        elif step_info["type"] == OperateType.KEYBOARD:
-            text = f"键盘--{step_info.get('object')}--{'TAB' if step_info.get('action') == OperateAction.TAP else None}"
+        if isinstance(step_info, KeyboardAction):
+            text = f"键盘--{step_info.key}--{'TAB' if step_info.action == OperateAction.TAP else None}"
             pass
-        elif step_info["type"] == OperateType.MOUSE:
-            action = "单击" if step_info.get("action") == OperateAction.CLICK else None
-            if step_info.get('object') == Button.left:
+        elif isinstance(step_info, MouseAction):
+            action = "单击" if step_info.action == OperateAction.CLICK else "滚动"
+            postfix_info = ""
+            if step_info.button == Button.left:
                 button = "左键"
-            elif step_info.get('object') == Button.right:
+            elif step_info.button == Button.right:
                 button = "右键"
+            elif step_info.button == Button.middle:
+                button = "中键"
             else:
-                button = None
-            text = f"鼠标--{button}--{action}--pos{(step_info.get('x_pos'), step_info.get('y_pos'))}"
+                button = "滚轮"
+                postfix_info = f"--dx({step_info.scroll_dx})--dy({step_info.scroll_dy})"
+            text = f"鼠标--{button}--{action}--pos{(step_info.x_pos, step_info.y_pos)}{postfix_info}"
             pass
         else:
             return
         item = QListWidgetItem(text)
-        item.setCheckState(Qt.Checked) if step_info["is_checked"] else item.setCheckState(Qt.Unchecked)
+        item.setCheckState(Qt.Checked) if step_info.is_checked else item.setCheckState(Qt.Unchecked)
         self.lw_display_steps.addItem(item)
         pass
 
