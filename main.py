@@ -4,11 +4,13 @@ from datetime import datetime
 from typing import Union
 
 import yaml
-from PyQt5.QtCore import QSharedMemory
+from PyQt5.QtCore import QSharedMemory, Qt
 from loguru import logger
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from yaml import Dumper, MappingNode, Loader, ScalarNode
 from qfluentwidgets import Dialog
+from screeninfo import get_monitors
+
 
 from driver.main_driver import AutoDrive
 from driver.auto_dataclass import OperateAction, MouseAction, KeyboardAction
@@ -81,8 +83,15 @@ class SingleApplication(QApplication):
         self.shared_memory.detach()
 
 if __name__ == '__main__':
+    screen_width = get_monitors()[0].width
+    screen_height = get_monitors()[0].height
+    if screen_width > 3000:
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
+    QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
+
     app = SingleApplication(sys.argv)
-    window = AutoDrive()
+    window = AutoDrive(app.release_lock)
     # 设置全局异常处理器
     sys.excepthook = global_exception_handler
     window.show()

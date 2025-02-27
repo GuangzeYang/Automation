@@ -60,6 +60,7 @@ class OperateDriver(OperateGui):
         :param step_info:
         :return:
         """
+
         if isinstance(step_info, KeyboardAction):
             text = f"键盘--{step_info.key}--{'TAB' if step_info.action == OperateAction.TAP else None}"
             pass

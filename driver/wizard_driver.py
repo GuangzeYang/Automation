@@ -23,6 +23,7 @@ class WizardDriver(WizardGui):
     debug_stopped = pyqtSignal()
     # 预留功能
     single_step_finished = pyqtSignal(int)
+    single_loop_finished = pyqtSignal(int)
 
     def __init__(self):
         super().__init__()
@@ -60,6 +61,8 @@ class WizardDriver(WizardGui):
         if key == Key.esc:
             self.keyboard_listener.stop()
             self.mouse_listener.stop()
+            step = {"time_stamp": time.time(), "type": OperateType.KEYBOARD, "object": key, "action": OperateAction.TAP}
+            self.raw_step.append(step)
             self.define_step_finished.emit(self.raw_step)
         else:
             step = {"time_stamp": time.time(), "type": OperateType.KEYBOARD, "object": key, "action": OperateAction.TAP}
@@ -127,10 +130,9 @@ class WizardDriver(WizardGui):
 
     def execute_step_entry(self, measure_step: list):
         self.is_execute_finished = False
-        self.central_hint.setText("正在执行操作步骤")
+        self.central_hint.setText("正在执行操作步骤--")
         self.sub_hint.setText("（尽量不要操作，可以按Esc键暂停执行）")
         self.execute_paused_event.set()
-
         self.keyboard_listener = KListener(on_release=self.listen_command_keyboard)
         self.keyboard_listener.start()
         self.execute_step_thread = threading.Thread(target=self.execute_step, args=(measure_step,), name="execute_threading")
@@ -141,9 +143,12 @@ class WizardDriver(WizardGui):
     def execute_step(self, measure_step:list):
         """执行保存的步骤"""
         for i in range(self.loop_count):
-            for index, step in enumerate(measure_step):
+            logger.info(f"当前执行循环次数：{i}")
+            self.single_loop_finished.emit(i)
+            for step in measure_step:
                 self.execute_paused_event.wait()
                 if self.is_execute_finished:
+                    logger.info("is_execute_finished成立")
                     return
                 try:
                     if isinstance(step, MouseAction):
@@ -152,9 +157,10 @@ class WizardDriver(WizardGui):
                         self.execute_keyboard(step)
                     else:
                         pass
-                    self.single_step_finished.emit(index)
+                    self.single_step_finished.emit(step.list_item_id)
                 except Exception as e:
                     logger.error(e)
+
         self.central_hint.setText("操作步骤全部执行完毕")
         self.sub_hint.setText("（可以按Esc键返回用户操作界面）")
         logger.success("操作步骤全部执行完成")
@@ -175,7 +181,7 @@ class WizardDriver(WizardGui):
             self.mouse_controller.position = (step.x_pos, step.y_pos)
             self.mouse_controller.scroll(0, 0)
         else:
-            pass
+            logger.info("未识别当前鼠标操作")
         if not is_debug:
             time.sleep(step.delay)
 
@@ -197,6 +203,7 @@ class WizardDriver(WizardGui):
         if key == Key.esc:
             self.pause_executed.emit()
             self.keyboard_listener.stop()
+            self.mouse_listener.stop()
         else:
             pass
         pass

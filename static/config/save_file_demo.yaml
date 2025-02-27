@@ -6,196 +6,42 @@ measure_steps:
     - 4
     - 2
     - 0
-  delay: 0.14820122718811035
+  delay: 0.5319058895111084
   is_checked: true
   list_item_id: 0
   scroll_dx: 0
   scroll_dy: 0
-  x_pos: 437
-  y_pos: 650
+  x_pos: 29
+  y_pos: 51
 - !MouseAction
   action: *id001
   button: *id002
-  delay: 2.3642561435699463
+  delay: 1.5239455699920654
   is_checked: true
   list_item_id: 1
   scroll_dx: 0
   scroll_dy: 0
-  x_pos: 437
-  y_pos: 650
+  x_pos: 45
+  y_pos: 66
 - !MouseAction
   action: *id001
   button: *id002
-  delay: 0.463716983795166
+  delay: 0.1710832118988037
   is_checked: true
   list_item_id: 2
   scroll_dx: 0
   scroll_dy: 0
-  x_pos: 966
-  y_pos: 180
-- !MouseAction
-  action: *id001
-  button: *id002
-  delay: 0.33557796478271484
-  is_checked: true
-  list_item_id: 3
-  scroll_dx: 0
-  scroll_dy: 0
-  x_pos: 966
-  y_pos: 180
-- !MouseAction
-  action: *id001
-  button: *id002
-  delay: 0.6448063850402832
-  is_checked: true
-  list_item_id: 4
-  scroll_dx: 0
-  scroll_dy: 0
-  x_pos: 966
-  y_pos: 180
-- !MouseAction
-  action: *id001
-  button: *id002
-  delay: 0.7595999240875244
-  is_checked: true
-  list_item_id: 5
-  scroll_dx: 0
-  scroll_dy: 0
-  x_pos: 962
-  y_pos: 627
-- !KeyboardAction
-  action: &id003 !OperateAction 'TAP'
-  delay: 0.12473249435424805
-  is_checked: true
-  key: !!python/object:pynput.keyboard._win32.KeyCode
-    _flags: null
-    _scan: 49
-    char: n
-    combining: null
-    is_dead: false
-    vk: 78
-  list_item_id: 6
-- !KeyboardAction
-  action: *id003
-  delay: 0.14342713356018066
-  is_checked: true
-  key: !!python/object:pynput.keyboard._win32.KeyCode
-    _flags: null
-    _scan: 23
-    char: i
-    combining: null
-    is_dead: false
-    vk: 73
-  list_item_id: 7
-- !KeyboardAction
-  action: *id003
-  delay: 0.2810087203979492
-  is_checked: true
-  key: !!python/object:pynput.keyboard._win32.KeyCode
-    _flags: null
-    _scan: 35
-    char: h
-    combining: null
-    is_dead: false
-    vk: 72
-  list_item_id: 8
-- !KeyboardAction
-  action: *id003
-  delay: 0.3596153259277344
-  is_checked: true
-  key: !!python/object:pynput.keyboard._win32.KeyCode
-    _flags: null
-    _scan: 30
-    char: a
-    combining: null
-    is_dead: false
-    vk: 65
-  list_item_id: 9
-- !KeyboardAction
-  action: *id003
-  delay: 0.32790303230285645
-  is_checked: true
-  key: !!python/object:pynput.keyboard._win32.KeyCode
-    _flags: null
-    _scan: 24
-    char: o
-    combining: null
-    is_dead: false
-    vk: 79
-  list_item_id: 10
-- !KeyboardAction
-  action: *id003
-  delay: 0.055503129959106445
-  is_checked: true
-  key: !!python/object:pynput.keyboard._win32.KeyCode
-    _flags: null
-    _scan: 2
-    char: '1'
-    combining: null
-    is_dead: false
-    vk: 49
-  list_item_id: 11
-- !KeyboardAction
-  action: *id003
-  delay: 2.284186840057373
-  is_checked: true
-  key: !!python/object:pynput.keyboard._win32.KeyCode
-    _flags: null
-    _scan: 2
-    char: '1'
-    combining: null
-    is_dead: false
-    vk: 49
-  list_item_id: 12
-- !MouseAction
-  action: *id001
-  button: *id002
-  delay: 0.26372313499450684
-  is_checked: true
-  list_item_id: 13
-  scroll_dx: 0
-  scroll_dy: 0
-  x_pos: 1018
-  y_pos: 180
-- !MouseAction
-  action: *id001
-  button: *id002
-  delay: 0.23195385932922363
-  is_checked: true
-  list_item_id: 14
-  scroll_dx: 0
-  scroll_dy: 0
-  x_pos: 1018
-  y_pos: 180
-- !MouseAction
-  action: *id001
-  button: *id002
-  delay: 0.6478667259216309
-  is_checked: true
-  list_item_id: 15
-  scroll_dx: 0
-  scroll_dy: 0
-  x_pos: 1018
-  y_pos: 180
-- !MouseAction
-  action: *id001
-  button: *id002
-  delay: 1.0242631435394287
-  is_checked: true
-  list_item_id: 16
-  scroll_dx: 0
-  scroll_dy: 0
-  x_pos: 811
-  y_pos: 187
+  x_pos: 495
+  y_pos: 300
 - !MouseAction
   action: *id001
   button: *id002
   delay: 0.0
   is_checked: true
-  list_item_id: 17
+  list_item_id: 3
   scroll_dx: 0
   scroll_dy: 0
-  x_pos: 1319
-  y_pos: 87
+  x_pos: 495
+  y_pos: 300
 ui_info:
   loop_count: 1

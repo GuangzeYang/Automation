@@ -19,12 +19,15 @@ import configparser
 
 class AutoDrive:
 
-    def __init__(self):
+    def __init__(self, app_close_release_memory:callable = lambda : None):
+        """
+        :param app_close_release_memory: 释放单例锁的方法
+        """
         super().__init__()
         # 处理后的数据格式：[ 时间 ，操作，时间，操作......]，操作数据格式按被操作的对象划分。
         # 队列在头处pop时，性能高于list。list是动态分配内存，阈值时重新分配性能低，所以raw_step用队列，保证最小误差记录操作步骤。
         self.measure_steps = []  # 保存所有定义的执行步骤
-
+        self.app_release_memory = app_close_release_memory
         self.actual_step = []  # 实际执行的步骤（用户在measure_steps基础上进行操作/筛选后的步骤）
         self.user_config_path = "./static/config/user_config.ini"
         self.operate_driver = OperateDriver()
@@ -46,6 +49,7 @@ class AutoDrive:
         self.wizard_driver.pause_executed.connect(self.pause_execution)
         self.wizard_driver.debug_stopped.connect(self.debug_execution_finish)
         self.wizard_driver.single_step_finished.connect(self.single_step_finish)
+        self.wizard_driver.single_loop_finished.connect(self.single_loop_finish)
 
     def show(self):
         self.operate_driver.show()
@@ -55,6 +59,7 @@ class AutoDrive:
         self.wizard_driver.keyboard_listener.stop()
         self.wizard_driver.mouse_listener.stop()
         self.wizard_driver.close()
+        self.app_release_memory()
         pass
 
     def show_operate(self):
@@ -124,9 +129,9 @@ class AutoDrive:
     def stop_executed_thread(self):
         while any([self.wizard_driver.execute_step_thread.is_alive(),
                    self.wizard_driver.debug_threading.is_alive()]):
+            self.wizard_driver.is_execute_finished = True
             self.wizard_driver.execute_paused_event.set()
             self.wizard_driver.debug_paused_event.set()
-            self.wizard_driver.is_execute_finished = True
             time.sleep(0.1)
         self.wizard_driver.execute_paused_event.clear()
         self.wizard_driver.debug_paused_event.clear()
@@ -143,6 +148,10 @@ class AutoDrive:
                 duration=1000,
                 parent=self.wizard_driver
         )
+        pass
+
+    def single_loop_finish(self, count):
+        self.wizard_driver.central_hint.setText("正在执行操作步骤--"+str(count+1))
         pass
 
     def update_step_status(self, item):
@@ -180,7 +189,11 @@ class AutoDrive:
         list_item_id = 0
         while raw_queue:
             raw_step = raw_queue.popleft()
-            post_time_stamp = raw_queue[0]["time_stamp"] if raw_queue else raw_step["time_stamp"]
+            if raw_queue:
+                post_time_stamp = raw_queue[0]["time_stamp"]
+            else:
+                # post_time_stamp = raw_step["time_stamp"]
+                continue
             # 时间间隔
             interval_time = post_time_stamp - raw_step["time_stamp"]
             # 插入步骤
